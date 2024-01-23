@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="60"> <!-- Refresh every 60 seconds to get updated data -->
+    <title>Nifty 50 Display</title>
+</head>
+<body>
+    <h1>Nifty 50 Stock Data</h1>
+    <div id="stockData"></div>
+
+    <script>
+        // JavaScript code to fetch and display Nifty 50 stock market data from Yahoo Finance
+        async function fetchNiftyData() {
+            try {
+                const symbol = '^NSEI'; // Symbol for Nifty 50 on NSE
+                const response = await fetch(`https://query1.finance.yahoo.com/v7/finance/quote?symbols=${symbol}`);
+                const data = await response.json();
+
+                // Extract relevant data from the API response
+                const stockPrice = data.quoteResponse.result[0].regularMarketPrice;
+
+                // Update the HTML content
+                document.getElementById('stockData').innerHTML = `<p>Nifty 50 Price: ${stockPrice}</p>`;
+            } catch (error) {
+                console.error('Error fetching Nifty 50 data:', error);
+            }
+        }
+
+        // Fetch data initially and set up interval for periodic updates
+        fetchNiftyData();
+        setInterval(fetchNiftyData, 60000); // Update every 60 seconds
+    </script>
+</body>
+</html>
